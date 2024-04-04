@@ -40,7 +40,7 @@ class RegisterScreen extends StatelessWidget {
                 hintText: "enter your password",
               ),
               Padding(
-                padding: EdgeInsets.only(top: 56.h, bottom: 100.h),
+                padding: EdgeInsets.only(top: 50.h, bottom: 30.h),
                 child: AuthButton(title: "Sign Up", onPressed: () {}),
               )
             ],

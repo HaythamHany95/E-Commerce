@@ -1,3 +1,4 @@
+import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +27,7 @@ class AuthTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
-          height: 32.h,
+          height: 20.h,
         ),
         Text(
           fieldTitle ?? "",
@@ -34,11 +35,13 @@ class AuthTextFormField extends StatelessWidget {
           textAlign: TextAlign.start,
         ),
         SizedBox(
-          height: 24.h,
+          height: 20.h,
         ),
         TextFormField(
-          style:
-              Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 16),
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: MyColors.blueColor, fontSize: 14),
           controller: controller,
           validator: validator,
           obscureText: obscureText,
@@ -46,7 +49,7 @@ class AuthTextFormField extends StatelessWidget {
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.titleSmall,
             filled: true,
-            fillColor: Colors.white,
+            fillColor: MyColors.whiteColor,
             errorMaxLines: 3,
             suffixIcon: suffixIcon,
             labelText: labelText,
