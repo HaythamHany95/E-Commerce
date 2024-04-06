@@ -23,6 +23,12 @@ class MyTheme {
         fontWeight: FontWeight.w300,
         fontSize: 16,
       ),
+      bodyMedium: TextStyle(
+        fontFamily: 'Poppins',
+        color: MyColors.whiteColor,
+        fontWeight: FontWeight.w400,
+        fontSize: 17,
+      ),
     ),
   );
 }

@@ -1,4 +1,3 @@
-import 'package:e_commerce/ui/screens/auth/register/register_screen.dart';
 import 'package:e_commerce/ui/utils/my_routes.dart';
 import 'package:e_commerce/ui/utils/my_theme.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ class ECommerceApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: MyTheme.myTheme,
-        initialRoute: RegisterScreen.routeName,
+        initialRoute: MyRoutes.initialRoute,
         routes: MyRoutes.myRoutes,
       ),
     );
