@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/data/api/api_constants.dart';
+import 'package:e_commerce/data/models_dto/request/login_requsest_dto.dart';
 import 'package:e_commerce/data/models_dto/request/register_request_dto.dart';
 import 'package:e_commerce/data/models_dto/response/register_response_dto.dart';
 import 'package:e_commerce/domain/entities/errors.dart';
@@ -28,7 +29,10 @@ class ApiManager {
 
     if (connectivityResult.contains(ConnectivityResult.mobile) ||
         connectivityResult.contains(ConnectivityResult.wifi)) {
-      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.registerEndPoint);
+      Uri url = Uri.https(
+        ApiConstants.baseUrl,
+        ApiConstants.registerEndPoint,
+      );
       var registerRequest = RegisterRequestDTO(
           name: name,
           phone: phone,
@@ -36,12 +40,44 @@ class ApiManager {
           password: password,
           rePassword: rePassword);
       var response = await http.post(url, body: registerRequest.toJson());
-      var registerResponse =
-          RegisterResponseDTO.fromJson(jsonDecode(response.body));
+      var registerResponse = RegisterResponseDTO.fromJson(
+        jsonDecode(response.body),
+      );
       if (response.statusCode >= 200 && response.statusCode < 300) {
         return Right(registerResponse);
       } else {
         return Left(ServerError(errorMessage: registerResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: "Please check the internet connection"));
+    }
+  }
+
+  Future<Either<Errors, RegisterResponseDTO>> login(
+      String? userEmail, String? uesrPassword) async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      Uri url = Uri.https(
+        ApiConstants.baseUrl,
+        ApiConstants.signInEndPoint,
+      );
+      var loginRequest = LoginRequestDTO(
+        email: userEmail,
+        password: uesrPassword,
+      );
+      var response = await http.post(url, body: loginRequest.toJson());
+      var loginResponse = RegisterResponseDTO.fromJson(
+        jsonDecode(response.body),
+      );
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(loginResponse);
+      } else {
+        return Left(ServerError(errorMessage: loginResponse.message));
       }
     } else {
       return Left(

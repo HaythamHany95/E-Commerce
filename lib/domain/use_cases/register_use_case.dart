@@ -5,6 +5,7 @@ import 'package:e_commerce/domain/repository/auth/repository/auth_repository_con
 
 class RegisterUseCase {
   AuthRepositoryContract authRepository;
+
   RegisterUseCase({required this.authRepository});
 
   Future<Either<Errors, RegisterResponseEntitiy>> invoke(String? userName,

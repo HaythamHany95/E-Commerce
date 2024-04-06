@@ -9,4 +9,6 @@ abstract class AuthRepositoryContract {
     String? userEmail,
     String? uesrPassword,
   );
+  Future<Either<Errors, RegisterResponseEntitiy>> login(
+      String? userEmail, String? uesrPassword);
 }

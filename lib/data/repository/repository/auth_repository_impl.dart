@@ -15,4 +15,10 @@ class AuthRepositoryImpl implements AuthRepositoryContract {
     return remoteDataSourceDelegate.register(
         userName, userPhoneNumber, userEmail, uesrPassword);
   }
+
+  @override
+  Future<Either<Errors, RegisterResponseEntitiy>> login(
+      String? userEmail, String? uesrPassword) {
+    return remoteDataSourceDelegate.login(userEmail, uesrPassword);
+  }
 }

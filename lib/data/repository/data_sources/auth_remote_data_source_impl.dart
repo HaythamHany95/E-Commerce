@@ -27,4 +27,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSourceContract {
       return Right(response.toRegisterResponseEntity());
     });
   }
+
+  @override
+  Future<Either<Errors, RegisterResponseEntitiy>> login(
+      String? userEmail, String? uesrPassword) async {
+    var either = await apiManager.login(userEmail, uesrPassword);
+    return either.fold(
+        // Either Error :
+        (error) {
+      return Left(error);
+      // Either Success
+    }, (response) {
+      // to convert the [response] type from `DTO Model` to `Entity Model` to confirm with the return of the [register] method
+      return Right(response.toRegisterResponseEntity());
+    });
+  }
 }
