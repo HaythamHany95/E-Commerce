@@ -21,19 +21,90 @@ class _HomeTabState extends State<HomeTab> {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Column(
-        children: [
-          ImageSlideshow(
-            autoPlayInterval: 3500,
-            indicatorBottomPadding: 20.h,
-            isLoop: true,
-            indicatorPadding: 5.w,
-            indicatorRadius: 5.r,
-            indicatorColor: MyColors.blueColor,
-            indicatorBackgroundColor: MyColors.whiteColor,
-            children: ads.map((e) => Image.asset(e)).toList(),
-          )
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ImageSlideshow(
+              autoPlayInterval: 3500,
+              indicatorBottomPadding: 20.h,
+              isLoop: true,
+              indicatorPadding: 5.w,
+              indicatorRadius: 5.r,
+              indicatorColor: MyColors.blueColor,
+              indicatorBackgroundColor: MyColors.whiteColor,
+              children: ads.map((adPath) => Image.asset(adPath)).toList(),
+            ),
+            Container(
+              height: 400.h,
+              margin: EdgeInsets.symmetric(vertical: 10.h),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Categories",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: MyColors.blueColor),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Text(
+                          "view all",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  color: MyColors.blueColor, fontSize: 15.sp),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 1 / 0.70,
+                          mainAxisSpacing: 5.w,
+                          crossAxisSpacing: 40.h,
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: 20,
+                        itemBuilder: (context, i) {
+                          return Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 50.r,
+                                foregroundImage: const AssetImage(
+                                  "assets/images/ads_image2.png",
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "Category",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: MyColors.blueColor,
+                                        fontSize: 15.sp),
+                              )
+                            ],
+                          );
+                        }),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
