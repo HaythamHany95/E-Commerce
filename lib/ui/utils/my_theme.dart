@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 
 class MyTheme {
   static ThemeData myTheme = ThemeData(
+    ///* AppBarTheme
+    appBarTheme: const AppBarTheme(
+      titleSpacing: 1,
+    ),
+
     ///* TextTheme
     textTheme: const TextTheme(
       titleLarge: TextStyle(

@@ -5,7 +5,9 @@ import 'package:e_commerce/ui/screens/home/home_screen.dart';
 import 'package:e_commerce/ui/screens/product_details/product_details_screen.dart';
 
 class MyRoutes {
-  static String? initialRoute = LoginScreen.routeName;
+  // static String? initialRoute = LoginScreen.routeName;
+  static String? initialRoute = HomeScreen.routeName;
+
   static var myRoutes = {
     LoginScreen.routeName: (_) => const LoginScreen(),
     RegisterScreen.routeName: (_) => const RegisterScreen(),
