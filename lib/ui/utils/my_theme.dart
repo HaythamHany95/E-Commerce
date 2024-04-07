@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 
 class MyTheme {
   static ThemeData myTheme = ThemeData(
+    primaryColor: MyColors.blueColor,
+
+    ///* BottomNavigationBarThemeData
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: MyColors.whiteColor,
+        selectedItemColor: MyColors.whiteColor),
+
     ///* AppBarTheme
     appBarTheme: const AppBarTheme(
       titleSpacing: 1,

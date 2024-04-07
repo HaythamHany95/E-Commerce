@@ -10,11 +10,11 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 12.w),
+      margin: EdgeInsets.only(left: 15.w, top: 5.h),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 15.h),
+            margin: EdgeInsets.only(bottom: 20.h),
             child: Row(
               children: [
                 Image.asset(
@@ -28,6 +28,10 @@ class HomeAppBar extends StatelessWidget {
             children: [
               Expanded(
                   child: TextField(
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall
+                    ?.copyWith(fontSize: 18.sp),
                 decoration: InputDecoration(
                   hintText: "what do uou search for?",
                   hintStyle: Theme.of(context)
