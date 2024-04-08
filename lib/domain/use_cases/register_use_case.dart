@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/domain/entities/errors.dart';
 import 'package:e_commerce/domain/entities/register_response_entity.dart';
-import 'package:e_commerce/domain/repository/auth/repository/auth_repository_contract.dart';
+import 'package:e_commerce/domain/repository/repository/auth_repository_contract.dart';
 
 class RegisterUseCase {
   AuthRepositoryContract authRepository;

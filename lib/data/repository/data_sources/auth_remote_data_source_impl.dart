@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:e_commerce/data/api/api_manager.dart';
 import 'package:e_commerce/domain/entities/errors.dart';
 import 'package:e_commerce/domain/entities/register_response_entity.dart';
-import 'package:e_commerce/domain/repository/auth/data_sources/auth_remote_data_source_contract.dart';
+import 'package:e_commerce/domain/repository/data_sources/auth_remote_data_source_contract.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSourceContract {
   ApiManager apiManager;

@@ -1,15 +1,14 @@
 import 'package:e_commerce/domain/entities/categories_response_entity.dart';
 
-class CategoriesResponseDTO extends CategoriesResponseEntity {
+class CategoriesBrandsResponseDTO extends CategoriesBrandsResponseEntity {
   String? message;
   String? statusMsg;
-
   Metadata? metadata;
 
-  CategoriesResponseDTO(
+  CategoriesBrandsResponseDTO(
       {this.statusMsg, this.message, super.results, this.metadata, super.data});
 
-  CategoriesResponseDTO.fromJson(Map<String, dynamic> json) {
+  CategoriesBrandsResponseDTO.fromJson(Map<String, dynamic> json) {
     if (json["message"] is String) {
       message = json["message"];
     }
@@ -28,16 +27,18 @@ class CategoriesResponseDTO extends CategoriesResponseEntity {
     if (json["data"] is List) {
       data = json["data"] == null
           ? null
-          : (json["data"] as List).map((e) => CategoryDTO.fromJson(e)).toList();
+          : (json["data"] as List)
+              .map((e) => CategoryBrandDTO.fromJson(e))
+              .toList();
     }
   }
 }
 
-class CategoryDTO extends CategoryEntity {
+class CategoryBrandDTO extends CategoryBrandEntity {
   String? createdAt;
   String? updatedAt;
 
-  CategoryDTO(
+  CategoryBrandDTO(
       {super.id,
       super.name,
       super.slug,
@@ -45,7 +46,7 @@ class CategoryDTO extends CategoryEntity {
       this.createdAt,
       this.updatedAt});
 
-  CategoryDTO.fromJson(Map<String, dynamic> json) {
+  CategoryBrandDTO.fromJson(Map<String, dynamic> json) {
     if (json["_id"] is String) {
       id = json["_id"];
     }

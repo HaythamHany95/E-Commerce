@@ -1,13 +1,12 @@
-import 'package:e_commerce/ui/screens/home/home_tabs/home_tab/cubit/home_tab_viewmodel.dart';
+import 'package:e_commerce/domain/entities/categories_response_entity.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CategoryBrandGridViewSection extends StatelessWidget {
-  final HomeTabViewModel viewModel;
+class CategoryBrandSection extends StatelessWidget {
+  final List<CategoryBrandEntity> list;
   final String? sectionName;
-  const CategoryBrandGridViewSection(
-      {super.key, required this.viewModel, this.sectionName});
+  const CategoryBrandSection({super.key, required this.list, this.sectionName});
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +49,18 @@ class CategoryBrandGridViewSection extends StatelessWidget {
                   crossAxisSpacing: 40.h,
                   crossAxisCount: 2,
                 ),
-                itemCount: viewModel.categories.length,
+                itemCount: list.length,
                 itemBuilder: (context, i) {
                   return Column(
                     children: [
-                      (viewModel.categories.isEmpty)
+                      (list.isEmpty)
                           ? const CircularProgressIndicator(
                               color: MyColors.blueColor,
                             )
                           : CircleAvatar(
                               radius: 50.r,
                               foregroundImage: NetworkImage(
-                                viewModel.categories[i].image ?? "",
+                                list[i].image ?? "",
                               ),
                             ),
                       SizedBox(
@@ -69,7 +68,7 @@ class CategoryBrandGridViewSection extends StatelessWidget {
                       ),
                       Text(
                         textAlign: TextAlign.center,
-                        viewModel.categories[i].name ?? "",
+                        list[i].name ?? "",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: MyColors.blueColor, fontSize: 15.sp),
                       )

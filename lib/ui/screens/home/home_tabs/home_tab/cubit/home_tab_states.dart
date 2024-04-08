@@ -14,7 +14,21 @@ class CatagoryErrorState extends HomeTabStates {
 }
 
 class CategorySuccessState extends HomeTabStates {
-  CategoriesResponseEntity category;
+  CategoriesBrandsResponseEntity category;
 
   CategorySuccessState({required this.category});
+}
+
+class BrandsLoadingState extends HomeTabStates {}
+
+class BrandsErrorState extends HomeTabStates {
+  Errors? errorMessage;
+
+  BrandsErrorState({required this.errorMessage});
+}
+
+class BrandsSuccessState extends HomeTabStates {
+  CategoriesBrandsResponseEntity brand;
+
+  BrandsSuccessState({required this.brand});
 }
