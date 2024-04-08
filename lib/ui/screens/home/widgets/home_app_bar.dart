@@ -47,7 +47,7 @@ class HomeAppBar extends StatelessWidget {
                       "assets/images/search_icon.png",
                     ),
                     color: MyColors.blueColor,
-                    size: 40.dm,
+                    size: 40.sp,
                   ),
                   contentPadding: const EdgeInsets.only(top: 0),
                   border: OutlineInputBorder(

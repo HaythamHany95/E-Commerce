@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreenViewModel extends Cubit<HomeScreenStates> {
-  HomeScreenViewModel() : super(InitialHomeScreenState());
+  HomeScreenViewModel() : super(HomeScreenInitialState());
   int selectedIndex = 0;
   List<Widget> tabs = const [
     HomeTab(),
@@ -16,6 +16,8 @@ class HomeScreenViewModel extends Cubit<HomeScreenStates> {
     ProfileTab()
   ];
   void changeTab(newIndex) {
+    // emit(HomeScreenInitialState());
     selectedIndex = newIndex;
+    emit(HomeScreenChangingTabState());
   }
 }

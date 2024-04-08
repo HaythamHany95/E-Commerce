@@ -1,3 +1,5 @@
 abstract class HomeScreenStates {}
 
-class InitialHomeScreenState extends HomeScreenStates {}
+class HomeScreenInitialState extends HomeScreenStates {}
+
+class HomeScreenChangingTabState extends HomeScreenStates {}

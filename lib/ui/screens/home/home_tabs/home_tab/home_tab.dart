@@ -1,5 +1,10 @@
+import 'package:e_commerce/domain/dep_injections.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/home_tab/cubit/home_tab_states.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/home_tab/cubit/home_tab_viewmodel.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/home_tab/widgets/category_brand_gridview_section.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,101 +16,51 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  final _viewModel =
+      HomeTabViewModel(getCategoriesUseCase: injectGetAllCategoriesUseCase());
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.getAllCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List ads = [
-      "assets/images/ads_image1.png",
-      "assets/images/ads_image2.png",
-      "assets/images/ads_image3.png"
-    ];
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ImageSlideshow(
-              autoPlayInterval: 3500,
-              indicatorBottomPadding: 20.h,
-              isLoop: true,
-              indicatorPadding: 5.w,
-              indicatorRadius: 5.r,
-              indicatorColor: MyColors.blueColor,
-              indicatorBackgroundColor: MyColors.whiteColor,
-              children: ads.map((adPath) => Image.asset(adPath)).toList(),
-            ),
-            Container(
-              height: 400.h,
-              margin: EdgeInsets.symmetric(vertical: 10.h),
+    return BlocBuilder<HomeTabViewModel, HomeTabStates>(
+        bloc: _viewModel,
+        builder: (context, state) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Categories",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(color: MyColors.blueColor),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "view all",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  color: MyColors.blueColor, fontSize: 15.sp),
-                        ),
-                      )
-                    ],
+                  ImageSlideshow(
+                    autoPlayInterval: 3500,
+                    indicatorBottomPadding: 20.h,
+                    isLoop: true,
+                    indicatorPadding: 5.w,
+                    indicatorRadius: 5.r,
+                    indicatorColor: MyColors.blueColor,
+                    indicatorBackgroundColor: MyColors.whiteColor,
+                    children: _viewModel.ads
+                        .map((adPath) => Image.asset(adPath))
+                        .toList(),
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Expanded(
-                    child: GridView.builder(
-                        scrollDirection: Axis.horizontal,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 1 / 0.70,
-                          mainAxisSpacing: 5.w,
-                          crossAxisSpacing: 40.h,
-                          crossAxisCount: 2,
-                        ),
-                        itemCount: 20,
-                        itemBuilder: (context, i) {
-                          return Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 50.r,
-                                foregroundImage: const AssetImage(
-                                  "assets/images/ads_image2.png",
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Text(
-                                "Category",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                        color: MyColors.blueColor,
-                                        fontSize: 15.sp),
-                              )
-                            ],
-                          );
-                        }),
-                  )
+                  (state is CategoryLoadingState)
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: MyColors.blueColor,
+                          ),
+                        )
+                      : CategoryBrandGridViewSection(
+                          viewModel: _viewModel,
+                          sectionName: "Categories",
+                        )
                 ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 }
