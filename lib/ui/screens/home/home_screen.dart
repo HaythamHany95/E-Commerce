@@ -23,10 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
         bloc: _viewModel,
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              toolbarHeight: 130.h,
-              title: const HomeAppBar(),
-            ),
+            appBar: (_viewModel.selectedIndex == 3)
+                ? null
+                : AppBar(
+                    toolbarHeight: 130.h,
+                    title: const HomeAppBar(),
+                  ),
             bottomNavigationBar: Theme(
               data: Theme.of(context).copyWith(
                 canvasColor: MyColors.blueColor,

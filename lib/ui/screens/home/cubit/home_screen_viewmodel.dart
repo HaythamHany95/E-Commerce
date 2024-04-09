@@ -1,5 +1,5 @@
 import 'package:e_commerce/ui/screens/home/cubit/home_screen_states.dart';
-import 'package:e_commerce/ui/screens/home/home_tabs/categories_tab/category_tab.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/products_tab.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/favorits_tab/favorits_tab.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/home_tab/home_tab.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/profile_tab/profile_tab.dart';
@@ -11,7 +11,7 @@ class HomeScreenViewModel extends Cubit<HomeScreenStates> {
   int selectedIndex = 0;
   List<Widget> tabs = const [
     HomeTab(),
-    CategoriesTab(),
+    ProductsTab(),
     FavoritsTab(),
     ProfileTab()
   ];
