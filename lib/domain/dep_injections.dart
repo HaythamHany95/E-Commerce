@@ -1,14 +1,19 @@
 import 'package:e_commerce/data/api/api_manager.dart';
 import 'package:e_commerce/data/repository/data_sources/auth_remote_data_source_impl.dart';
 import 'package:e_commerce/data/repository/data_sources/home_tab_remote_data_source_impl.dart';
+import 'package:e_commerce/data/repository/data_sources/products_tab_remote_data_source_impl.dart';
 import 'package:e_commerce/data/repository/repository/auth_repository_impl.dart';
 import 'package:e_commerce/data/repository/repository/home_tab_repository_impl.dart';
+import 'package:e_commerce/data/repository/repository/products_tab_repository_impl.dart';
 import 'package:e_commerce/domain/repository/data_sources/auth_remote_data_source_contract.dart';
+import 'package:e_commerce/domain/repository/data_sources/products_tab_remote_data_source_contract.dart';
 import 'package:e_commerce/domain/repository/repository/auth_repository_contract.dart';
 import 'package:e_commerce/domain/repository/data_sources/home_tab_remote_data_source_contract.dart';
 import 'package:e_commerce/domain/repository/repository/home_tab_repository_contract.dart';
+import 'package:e_commerce/domain/repository/repository/products_tab_repository_contract.dart';
 import 'package:e_commerce/domain/use_cases/get_brands_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_categories_use_case.dart';
+import 'package:e_commerce/domain/use_cases/get_products_use_case.dart';
 import 'package:e_commerce/domain/use_cases/login_use_case.dart';
 import 'package:e_commerce/domain/use_cases/register_use_case.dart';
 
@@ -31,6 +36,11 @@ GetAllBrandsUseCase injectGetAllBrandsUseCase() {
       repositoryDelegate: injectHomeTabRepositoryContract());
 }
 
+GetAllProductsUseCase injectGetAllProductsUseCase() {
+  return GetAllProductsUseCase(
+      repositoryDelegate: injectProductsTabRepositoryContract());
+}
+
 ///* UseCase => object Repository  ---------------------------------------------
 AuthRepositoryContract injectAuthRepositoryContract() {
   return AuthRepositoryImpl(
@@ -42,9 +52,19 @@ HomeTabRepositoryContract injectHomeTabRepositoryContract() {
       remoteDataSourceDelegate: injectCategoriesRemoteDataSourceContract());
 }
 
+ProductsTabRepositoryContract injectProductsTabRepositoryContract() {
+  return ProductsTabRepositoryImpl(
+      remoteDataSourceDelegate: injectProductsTabRemoteDataSourceContract());
+}
+
 ///* Repository => object DataSource  -------------------------------------------
 AuthRemoteDataSourceContract injectAuthRemoteDataSourceContract() {
   return AuthRemoteDataSourceImpl(apiManager: injectApiManager());
+}
+
+ProductsTabRemoteDataSourceContract
+    injectProductsTabRemoteDataSourceContract() {
+  return ProductsTabRemoteDataSourceImpl(apiManager: ApiManager.getInstance());
 }
 
 HomeTabRemoteDataSourceContract injectCategoriesRemoteDataSourceContract() {

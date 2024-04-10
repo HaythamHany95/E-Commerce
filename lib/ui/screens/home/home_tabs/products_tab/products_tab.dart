@@ -1,96 +1,115 @@
+import 'package:e_commerce/domain/dep_injections.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_states.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_viewmodel.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProductsTab extends StatelessWidget {
+class ProductsTab extends StatefulWidget {
   const ProductsTab({super.key});
 
   @override
+  State<ProductsTab> createState() => _ProductsTabState();
+}
+
+class _ProductsTabState extends State<ProductsTab> {
+  final _viewModel = ProductsTabViewModel(
+      getAllProductsUseCase: injectGetAllProductsUseCase());
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 1 / 1.2,
-        ),
-        itemCount: 20,
-        itemBuilder: (context, i) {
-          return Material(
-            borderRadius: BorderRadius.circular(15.r),
-            elevation: 1.5.r,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.r),
-                border: Border.all(
-                  width: 2.w,
-                  color: MyColors.blueColor.withOpacity(0.3),
-                ),
+    return BlocBuilder<ProductsTabViewModel, ProductsTabStates>(
+        bloc: _viewModel..getAllProducts(),
+        builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10.h,
+                crossAxisSpacing: 10.w,
+                childAspectRatio: 1 / 1.2,
               ),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Stack(
+              itemCount: _viewModel.products.length,
+              itemBuilder: (context, i) {
+                return Material(
+                  borderRadius: BorderRadius.circular(15.r),
+                  elevation: 1.5.r,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(
+                        width: 2.w,
+                        color: MyColors.blueColor.withOpacity(0.3),
+                      ),
+                    ),
+                    child: Column(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15.r),
-                            topRight: Radius.circular(15.r),
-                          ),
-                          child: Image.asset(
-                            "assets/images/product_image.png",
-                            fit: BoxFit.fitWidth,
-                            width: double.infinity,
+                        Expanded(
+                          flex: 3,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15.r),
+                                  topRight: Radius.circular(15.r),
+                                ),
+                                child: (state is ProductsTabLoadingState)
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: MyColors.blueColor,
+                                        ),
+                                      )
+                                    : Image.network(
+                                        _viewModel.products[i].imageCover ?? "",
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                      ),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  highlightColor: Colors.transparent,
+                                  onPressed: () {},
+                                  icon: CircleAvatar(
+                                    backgroundColor: MyColors.whiteColor,
+                                    radius: 18.r,
+                                    child: ImageIcon(
+                                      const AssetImage(
+                                        "assets/images/favorit_icon.png",
+                                      ),
+                                      size: 25.r,
+                                      color: MyColors.blueColor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            highlightColor: Colors.transparent,
-                            onPressed: () {},
-                            icon: CircleAvatar(
-                              backgroundColor: MyColors.whiteColor,
-                              radius: 18.r,
-                              child: ImageIcon(
-                                const AssetImage(
-                                  "assets/images/favorit_icon.png",
-                                ),
-                                size: 25.r,
-                                color: MyColors.blueColor,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Expanded(
-                      flex: 2,
-                      child: Stack(
-                        children: [
-                          Column(
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                "Product Name",
+                                _viewModel.products[i].title ?? "",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyMedium
+                                    .titleMedium
                                     ?.copyWith(
                                       color: MyColors.blueColor,
-                                      fontSize: 15.sp,
+                                      fontSize: 14.sp,
                                     ),
                               ),
                               Row(
                                 children: [
                                   Text(
-                                    "Price",
+                                    "${_viewModel.products[i].price} LE",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -102,22 +121,12 @@ class ProductsTab extends StatelessWidget {
                                   SizedBox(
                                     width: 45.w,
                                   ),
-                                  Text(
-                                    "122",
-                                    style: TextStyle(
-                                      color: MyColors.blueColor,
-                                      fontSize: 14.sp,
-                                      decoration: TextDecoration.combine(
-                                        [TextDecoration.lineThrough],
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text(
-                                    "Review(4.5)",
+                                    "Review(${_viewModel.products[i].ratingsAverage}) ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -132,34 +141,28 @@ class ProductsTab extends StatelessWidget {
                                     ),
                                   ),
                                   const Spacer(),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: ImageIcon(
+                                      size: 30.sp,
+                                      const AssetImage(
+                                        "assets/images/add_icon.png",
+                                      ),
+                                      color: MyColors.blueColor,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                          Positioned(
-                            top: 10,
-                            right: 0,
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: ImageIcon(
-                                size: 30.sp,
-                                const AssetImage(
-                                  "assets/images/add_icon.png",
-                                ),
-                                color: MyColors.blueColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           );
-        },
-      ),
-    );
+        });
   }
 }
