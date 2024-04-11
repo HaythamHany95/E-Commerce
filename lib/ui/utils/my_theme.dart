@@ -15,7 +15,9 @@ class MyTheme {
 
     ///* AppBarTheme
     appBarTheme: const AppBarTheme(
+      centerTitle: true,
       titleSpacing: 1,
+      foregroundColor: MyColors.blueColor,
     ),
 
     ///* TextTheme
