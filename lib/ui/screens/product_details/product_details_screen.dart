@@ -157,13 +157,13 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            " (${productArgs.ratingsAverage}) ",
+                            " ${productArgs.ratingsAverage} ",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
                                 ?.copyWith(
                                   color: MyColors.blueColor,
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                 ),
                           ),
                         ],
@@ -214,7 +214,9 @@ class ProductDetailsScreen extends StatelessWidget {
                 child: ReadMoreText(
                   trimLength: 300,
                   productArgs.description ?? "",
-                  style: TextStyle(color: MyColors.blueColor, fontSize: 15.sp),
+                  style: TextStyle(
+                      color: MyColors.blueColor.withOpacity(0.8),
+                      fontSize: 15.sp),
                   textAlign: TextAlign.start,
                   preDataTextStyle: Theme.of(context)
                       .textTheme
@@ -228,7 +230,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   isExpandable: true,
                   trimLines: 3,
                   trimCollapsedText: 'Read more',
-                  trimExpandedText: ' . Show less',
+                  trimExpandedText: ' Show less',
                   moreStyle: Theme.of(context)
                       .textTheme
                       .titleLarge

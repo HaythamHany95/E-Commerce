@@ -8,6 +8,7 @@ import 'package:e_commerce/data/models_dto/response/categories_brands_response_d
 import 'package:e_commerce/data/models_dto/response/products_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/register_response_dto.dart';
 import 'package:e_commerce/domain/entities/errors.dart';
+import 'package:e_commerce/ui/utils/my_shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ApiManager {
@@ -46,6 +47,9 @@ class ApiManager {
         jsonDecode(response.body),
       );
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        // Saving `User Token`
+        MySharedPreferces.saveData(
+            key: ApiConstants.userToken, value: registerResponse.token);
         return Right(registerResponse);
       } else {
         return Left(ServerError(errorMessage: registerResponse.message));
@@ -77,6 +81,9 @@ class ApiManager {
       );
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        // Saving `User Token`
+        MySharedPreferces.saveData(
+            key: ApiConstants.userToken, value: loginResponse.token);
         return Right(loginResponse);
       } else {
         return Left(ServerError(errorMessage: loginResponse.message));

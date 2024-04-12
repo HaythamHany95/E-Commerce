@@ -1,4 +1,6 @@
+import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogUtils {
   static void showLoading(BuildContext context, {required String message}) {
@@ -9,11 +11,19 @@ class DialogUtils {
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(),
-            const SizedBox(
-              width: 20,
+            const CircularProgressIndicator(
+              color: MyColors.blueColor,
             ),
-            Text(message)
+            SizedBox(
+              width: 20.w,
+            ),
+            Text(
+              message,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17.sp, color: MyColors.blueColor),
+            )
           ],
         ),
       ),
@@ -62,8 +72,10 @@ class DialogUtils {
       builder: (context) => AlertDialog(
         title: Text(
           title ?? "",
-          style:
-              Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 20),
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(fontSize: 20.sp, color: MyColors.blueColor),
         ),
         content: Text(
           content,

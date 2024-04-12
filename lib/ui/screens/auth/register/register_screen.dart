@@ -1,6 +1,7 @@
 import 'package:e_commerce/domain/dep_injections.dart';
 import 'package:e_commerce/ui/screens/auth/register/cubit/register_screen_states.dart';
 import 'package:e_commerce/ui/screens/auth/register/cubit/register_screen_viewmodel.dart';
+import 'package:e_commerce/ui/screens/home/home_screen.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:e_commerce/ui/widgets/auth_button.dart';
 import 'package:e_commerce/ui/widgets/auth_textform_field.dart';
@@ -36,9 +37,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 title: "Error", content: state.errorMessage ?? "");
           } else if (state is SuccessState) {
             DialogUtils.hideLoading(context);
-            DialogUtils.showMessage(context,
-                title: "Register Successeded",
-                content: state.registerResponseEntitiy?.user?.name ?? "");
+            // DialogUtils.showMessage(context,
+            //     title: "Register Successeded",
+            //     content: state.registerResponseEntitiy?.user?.name ?? "");
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           }
         },
         child: Scaffold(
