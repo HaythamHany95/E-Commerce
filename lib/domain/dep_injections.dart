@@ -11,6 +11,7 @@ import 'package:e_commerce/domain/repository/repository/auth_repository_contract
 import 'package:e_commerce/domain/repository/data_sources/home_tab_remote_data_source_contract.dart';
 import 'package:e_commerce/domain/repository/repository/home_tab_repository_contract.dart';
 import 'package:e_commerce/domain/repository/repository/products_tab_repository_contract.dart';
+import 'package:e_commerce/domain/use_cases/add_to_cart_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_brands_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_categories_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_products_use_case.dart';
@@ -38,6 +39,11 @@ GetAllBrandsUseCase injectGetAllBrandsUseCase() {
 
 GetAllProductsUseCase injectGetAllProductsUseCase() {
   return GetAllProductsUseCase(
+      repositoryDelegate: injectProductsTabRepositoryContract());
+}
+
+AddToCartUseCase injectAddToCartUseCase() {
+  return AddToCartUseCase(
       repositoryDelegate: injectProductsTabRepositoryContract());
 }
 

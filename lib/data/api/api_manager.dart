@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:e_commerce/data/api/api_constants.dart';
 import 'package:e_commerce/data/models_dto/request/login_requsest_dto.dart';
 import 'package:e_commerce/data/models_dto/request/register_request_dto.dart';
+import 'package:e_commerce/data/models_dto/response/add_to_cart_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/categories_brands_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/products_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/register_response_dto.dart';
@@ -154,6 +155,32 @@ class ApiManager {
         return Right(productsResponse);
       } else {
         return Left(ServerError(errorMessage: productsResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: "Please check the internet connection"));
+    }
+  }
+
+  Future<Either<Errors, AddToCartResponseDTO>> addToCart(
+      String? productId) async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.addToCartEndPoint);
+      var userToken = MySharedPreferces.getData(key: ApiConstants.userToken);
+      var response = await http.post(url,
+          headers: {'token': userToken.toString()},
+          body: {'productId': productId});
+
+      var addToCartResponse =
+          AddToCartResponseDTO.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(addToCartResponse);
+      } else {
+        return Left(ServerError(errorMessage: addToCartResponse.message));
       }
     } else {
       return Left(
