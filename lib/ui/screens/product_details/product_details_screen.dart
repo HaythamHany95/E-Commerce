@@ -1,5 +1,7 @@
 import 'package:e_commerce/domain/entities/products_response_entity.dart';
+import 'package:e_commerce/ui/screens/cart/cart_screen.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
+import 'package:e_commerce/ui/widgets/inc_dec_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +34,9 @@ class ProductDetailsScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 5.w),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, CartScreen.routeName);
+              },
               icon: const ImageIcon(
                 AssetImage(
                   "assets/images/cart_icon.png",
@@ -170,28 +174,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: MyColors.blueColor,
-                        borderRadius: BorderRadius.all(Radius.circular(50.r))),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          iconSize: 30.sp,
-                          color: MyColors.whiteColor,
-                          onPressed: () {},
-                          icon: Icon(Icons.add_circle_outline_sharp),
-                        ),
-                        Text("1"),
-                        IconButton(
-                          iconSize: 30.sp,
-                          color: MyColors.whiteColor,
-                          onPressed: () {},
-                          icon: Icon(Icons.remove_circle_outline),
-                        ),
-                      ],
-                    ),
-                  )
+                  IncDecProduct()
                 ],
               ),
               SizedBox(
