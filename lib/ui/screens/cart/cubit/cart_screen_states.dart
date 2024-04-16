@@ -36,3 +36,19 @@ class DeleteFromCartSuccessState extends CartScreenStates {
 
   DeleteFromCartSuccessState({required this.getCartResponseEntity});
 }
+
+///* -------------- UpdateCartProductCountStates --------------
+
+class UpdateCartProductCountLoadingState extends CartScreenStates {}
+
+class UpdateCartProductCountErrorState extends CartScreenStates {
+  Errors error;
+
+  UpdateCartProductCountErrorState({required this.error});
+}
+
+class UpdateCartProductCountSuccessState extends CartScreenStates {
+  GetCartResponseEntity getCartResponseEntity;
+
+  UpdateCartProductCountSuccessState({required this.getCartResponseEntity});
+}

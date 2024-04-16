@@ -19,4 +19,10 @@ class CartRepositoryImpl implements CartRepositoryContract {
       String productId) {
     return remoteDataSourceDelegate.deleteProductFromCart(productId);
   }
+
+  @override
+  Future<Either<Errors, GetCartResponseEntity>> updateProductCountInCart(
+      String productId, int count) {
+    return remoteDataSourceDelegate.updateProductCountInCart(productId, count);
+  }
 }

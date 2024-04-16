@@ -19,7 +19,8 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final _viewModel = CartScreenViewModel(
       getCartProductsUseCase: injectGetCartProductsUseCase(),
-      deleteProductFromCartUseCase: injectDeleteProductFromCartUseCase());
+      deleteProductFromCartUseCase: injectDeleteProductFromCartUseCase(),
+      updateProductCountInCartUseCase: injectUpdateProductCountInCartUseCase());
 
   @override
   Widget build(BuildContext context) {
@@ -174,10 +175,76 @@ class _CartScreenState extends State<CartScreen> {
                                                             color: MyColors
                                                                 .blueColor),
                                                   ),
-                                                  IncDecProduct(
-                                                    quantity: _viewModel
-                                                        .cartProducts[i].count
-                                                        .toString(),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            MyColors.blueColor,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    50.r))),
+                                                    child: Row(
+                                                      children: [
+                                                        IconButton(
+                                                          iconSize: 30.sp,
+                                                          color: MyColors
+                                                              .whiteColor,
+                                                          onPressed: () {
+                                                            int counter = _viewModel
+                                                                    .cartProducts[
+                                                                        i]
+                                                                    .count
+                                                                    ?.toInt() ??
+                                                                0;
+
+                                                            0;
+                                                            counter++;
+                                                            _viewModel.updateProductCountInCart(
+                                                                _viewModel
+                                                                        .cartProducts[
+                                                                            i]
+                                                                        .product
+                                                                        ?.id ??
+                                                                    '',
+                                                                counter);
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .add_circle_outline_sharp),
+                                                        ),
+                                                        Text(_viewModel
+                                                            .cartProducts[i]
+                                                            .count
+                                                            .toString()),
+                                                        IconButton(
+                                                          iconSize: 30.sp,
+                                                          color: MyColors
+                                                              .whiteColor,
+                                                          onPressed: () {
+                                                            int counter = _viewModel
+                                                                    .cartProducts[
+                                                                        i]
+                                                                    .count
+                                                                    ?.toInt() ??
+                                                                0;
+
+                                                            counter--;
+                                                            if (counter <= 0) {
+                                                              counter = 0;
+                                                            }
+                                                            _viewModel.updateProductCountInCart(
+                                                                _viewModel
+                                                                        .cartProducts[
+                                                                            i]
+                                                                        .product
+                                                                        ?.id ??
+                                                                    '',
+                                                                counter);
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .remove_circle_outline),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   )
                                                 ],
                                               ),

@@ -23,8 +23,10 @@ import 'package:e_commerce/domain/use_cases/get_categories_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_products_use_case.dart';
 import 'package:e_commerce/domain/use_cases/login_use_case.dart';
 import 'package:e_commerce/domain/use_cases/register_use_case.dart';
+import 'package:e_commerce/domain/use_cases/update_product_count_in_cart_use_case.dart';
 
-///* ViewModel => object UseCase --------------------------------------------
+///*------------ ViewModel => object UseCase -----------------------------
+///
 RegisterUseCase injectRegisterUseCase() {
   return RegisterUseCase(authRepository: injectAuthRepositoryContract());
 }
@@ -63,7 +65,13 @@ DeleteProductFromCartUseCase injectDeleteProductFromCartUseCase() {
       repositoryDelegate: injectCartRepositoryContract());
 }
 
-///* UseCase => object Repository  ---------------------------------------------
+UpdateProductCountInCartUseCase injectUpdateProductCountInCartUseCase() {
+  return UpdateProductCountInCartUseCase(
+      repositoryDelegate: injectCartRepositoryContract());
+}
+
+///*------------ UseCase => object Repository  -----------------------------
+///
 AuthRepositoryContract injectAuthRepositoryContract() {
   return AuthRepositoryImpl(
       remoteDataSourceDelegate: injectAuthRemoteDataSourceContract());
@@ -84,7 +92,8 @@ CartRepositoryContract injectCartRepositoryContract() {
       remoteDataSourceDelegate: injectCartRemoteDataSourceContract());
 }
 
-///* Repository => object DataSource  -------------------------------------------
+///*------------ Repository => object DataSource  -----------------------------
+///
 AuthRemoteDataSourceContract injectAuthRemoteDataSourceContract() {
   return AuthRemoteDataSourceImpl(apiManager: injectApiManager());
 }
@@ -102,7 +111,8 @@ CartRemoteDataSourceContract injectCartRemoteDataSourceContract() {
   return CartRemoteDataSourceImpl(apiManager: ApiManager.getInstance());
 }
 
-///* DataSource = > object ApiManager  ------------------------------------------
+///*------------ DataSource = > object ApiManager  -----------------------------
+///
 ApiManager injectApiManager() {
   return ApiManager.getInstance();
 }

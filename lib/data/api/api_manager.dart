@@ -242,4 +242,32 @@ class ApiManager {
           NetworkError(errorMessage: "Please check the internet connection"));
     }
   }
+
+  Future<Either<Errors, GetCartResponseDTO>> updateProductCountInCart(
+      String productId, int count) async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      Uri url = Uri.https(
+          ApiConstants.baseUrl, "${ApiConstants.addToCartEndPoint}/$productId");
+      var userToken = MySharedPreferces.getData(key: ApiConstants.userToken);
+      var response = await http.put(url,
+          headers: {'token': userToken.toString()},
+          body: {'count': count.toString()});
+
+      var updateProductCountInCartResponse =
+          GetCartResponseDTO.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(updateProductCountInCartResponse);
+      } else {
+        return Left(ServerError(
+            errorMessage: updateProductCountInCartResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: "Please check the internet connection"));
+    }
+  }
 }

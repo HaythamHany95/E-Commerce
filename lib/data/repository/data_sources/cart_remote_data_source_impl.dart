@@ -34,4 +34,15 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSourceContract {
       },
     );
   }
+
+  @override
+  Future<Either<Errors, GetCartResponseEntity>> updateProductCountInCart(
+      String productId, int count) async {
+    var either = await apiManager.updateProductCountInCart(productId, count);
+    return either.fold((error) {
+      return Left(error);
+    }, (response) {
+      return Right(response);
+    });
+  }
 }

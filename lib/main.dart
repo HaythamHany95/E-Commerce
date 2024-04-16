@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:e_commerce/data/api/api_constants.dart';
 import 'package:e_commerce/ui/screens/auth/login/login_screen.dart';
 import 'package:e_commerce/ui/screens/home/home_screen.dart';
