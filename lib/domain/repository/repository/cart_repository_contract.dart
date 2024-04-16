@@ -4,4 +4,6 @@ import 'package:e_commerce/domain/entities/get_cart_response_entity.dart';
 
 abstract class CartRepositoryContract {
   Future<Either<Errors, GetCartResponseEntity>> getCartProducts();
+  Future<Either<Errors, GetCartResponseEntity>> deleteProductFromCart(
+      String productId);
 }

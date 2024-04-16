@@ -213,4 +213,33 @@ class ApiManager {
           NetworkError(errorMessage: "Please check the internet connection"));
     }
   }
+
+  Future<Either<Errors, GetCartResponseDTO>> deleteProductFromCart(
+      String productId) async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      Uri url = Uri.https(
+          ApiConstants.baseUrl, "${ApiConstants.addToCartEndPoint}/$productId");
+      var userToken = MySharedPreferces.getData(key: ApiConstants.userToken);
+      var response = await http.delete(
+        url,
+        headers: {'token': userToken.toString()},
+      );
+
+      var deleteProductFromCartResponse =
+          GetCartResponseDTO.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(deleteProductFromCartResponse);
+      } else {
+        return Left(
+            ServerError(errorMessage: deleteProductFromCartResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: "Please check the internet connection"));
+    }
+  }
 }

@@ -13,4 +13,10 @@ class CartRepositoryImpl implements CartRepositoryContract {
   Future<Either<Errors, GetCartResponseEntity>> getCartProducts() {
     return remoteDataSourceDelegate.getCartProducts();
   }
+
+  @override
+  Future<Either<Errors, GetCartResponseEntity>> deleteProductFromCart(
+      String productId) {
+    return remoteDataSourceDelegate.deleteProductFromCart(productId);
+  }
 }

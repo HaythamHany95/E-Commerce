@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IncDecProduct extends StatelessWidget {
-  const IncDecProduct({
-    super.key,
-  });
+  final String? quantity;
+  const IncDecProduct({super.key, this.quantity});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class IncDecProduct extends StatelessWidget {
             onPressed: () {},
             icon: Icon(Icons.add_circle_outline_sharp),
           ),
-          Text("1"),
+          Text(quantity ?? ' '),
           IconButton(
             iconSize: 30.sp,
             color: MyColors.whiteColor,

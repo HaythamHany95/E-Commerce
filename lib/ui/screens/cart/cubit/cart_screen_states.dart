@@ -5,6 +5,8 @@ abstract class CartScreenStates {}
 
 class CartScreenInitialState extends CartScreenStates {}
 
+///* -------------- GetCartStates --------------
+
 class GetCartLoadingState extends CartScreenStates {}
 
 class GetCartErrorState extends CartScreenStates {
@@ -17,4 +19,20 @@ class GetCartSuccessState extends CartScreenStates {
   GetCartResponseEntity getCartResponseEntity;
 
   GetCartSuccessState({required this.getCartResponseEntity});
+}
+
+///* -------------- DeleteFromCartStates --------------
+
+class DeleteFromCartLoadingState extends CartScreenStates {}
+
+class DeleteFromCartErrorState extends CartScreenStates {
+  Errors error;
+
+  DeleteFromCartErrorState({required this.error});
+}
+
+class DeleteFromCartSuccessState extends CartScreenStates {
+  GetCartResponseEntity getCartResponseEntity;
+
+  DeleteFromCartSuccessState({required this.getCartResponseEntity});
 }

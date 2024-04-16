@@ -247,7 +247,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.add_shopping_cart_sharp),
+                    icon: const Icon(Icons.add_shopping_cart_sharp),
                     label: Text(
                       "Add To Cart",
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -256,8 +256,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
                           horizontal: 50.w, vertical: 15.h)),
                       foregroundColor:
-                          MaterialStatePropertyAll(MyColors.whiteColor),
-                      backgroundColor: MaterialStatePropertyAll(
+                          const MaterialStatePropertyAll(MyColors.whiteColor),
+                      backgroundColor: const MaterialStatePropertyAll(
                         MyColors.blueColor,
                       ),
                     ),

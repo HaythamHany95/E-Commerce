@@ -18,7 +18,8 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final _viewModel = CartScreenViewModel(
-      getCartProductsUseCase: injectGetCartProductsUseCase());
+      getCartProductsUseCase: injectGetCartProductsUseCase(),
+      deleteProductFromCartUseCase: injectDeleteProductFromCartUseCase());
 
   @override
   Widget build(BuildContext context) {
@@ -26,101 +27,146 @@ class _CartScreenState extends State<CartScreen> {
         bloc: _viewModel..getCartProducts(),
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text("Cart"),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: ImageIcon(
-                    const AssetImage(
-                      "assets/images/search_icon.png",
-                    ),
-                    color: MyColors.blueColor,
-                    size: 40.sp,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 5.w),
-                  child: IconButton(
+              appBar: AppBar(
+                title: const Text("Cart"),
+                actions: [
+                  IconButton(
                     onPressed: () {},
-                    icon: const ImageIcon(
-                      AssetImage(
-                        "assets/images/cart_icon.png",
+                    icon: ImageIcon(
+                      const AssetImage(
+                        "assets/images/search_icon.png",
                       ),
                       color: MyColors.blueColor,
+                      size: 40.sp,
                     ),
                   ),
-                ),
-              ],
-            ),
-            body: (state is GetCartLoadingState)
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: MyColors.blueColor,
+                  Padding(
+                    padding: EdgeInsets.only(right: 5.w),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const ImageIcon(
+                        AssetImage(
+                          "assets/images/cart_icon.png",
+                        ),
+                        color: MyColors.blueColor,
+                      ),
                     ),
-                  )
-                : Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: _viewModel.cartProducts.length,
-                            itemBuilder: (context, i) {
-                              return Container(
-                                height: 152.h,
-                                margin: EdgeInsets.symmetric(vertical: 15.h),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.r),
-                                  border: Border.all(
-                                    color: MyColors.blueColor.withOpacity(0.3),
+                  ),
+                ],
+              ),
+              body: (state is GetCartSuccessState)
+                  ? Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: _viewModel.cartProducts.length,
+                              itemBuilder: (context, i) {
+                                return Container(
+                                  height: 152.h,
+                                  margin: EdgeInsets.symmetric(vertical: 15.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.r),
+                                    border: Border.all(
+                                      color:
+                                          MyColors.blueColor.withOpacity(0.3),
+                                    ),
                                   ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15.r),
-                                          border: Border.all(
-                                            color: MyColors.blueColor
-                                                .withOpacity(0.3),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15.r),
+                                            border: Border.all(
+                                              color: MyColors.blueColor
+                                                  .withOpacity(0.3),
+                                            ),
+                                          ),
+                                          child: Image.network(
+                                            _viewModel.cartProducts[i].product
+                                                    ?.imageCover ??
+                                                '',
+                                            height: 152.h,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                        child: Image.network(
-                                          _viewModel.cartProducts[i].product
-                                                  ?.imageCover ??
-                                              '',
-                                          height: 152.h,
-                                          fit: BoxFit.cover,
-                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, bottom: 2.h, right: 8.w),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  width: 190.w,
-                                                  child: Text(
-                                                    _viewModel.cartProducts[i]
-                                                            .product?.title ??
-                                                        '',
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              left: 8.w,
+                                              bottom: 2.h,
+                                              right: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 190.w,
+                                                    child: Text(
+                                                      _viewModel.cartProducts[i]
+                                                              .product?.title ??
+                                                          '',
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium
+                                                          ?.copyWith(
+                                                              color: MyColors
+                                                                  .blueColor),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        /// TODO: Delete Item from Cart
+                                                        _viewModel
+                                                            .deleteProductFromCart(
+                                                                _viewModel
+                                                                        .cartProducts[
+                                                                            i]
+                                                                        .product
+                                                                        ?.id ??
+                                                                    "");
+                                                      },
+                                                      icon: const ImageIcon(
+                                                        AssetImage(
+                                                            'assets/images/delete_icon.png'),
+                                                        color:
+                                                            MyColors.blueColor,
+                                                      ))
+                                                ],
+                                              ),
+                                              Text(
+                                                _viewModel.cartProducts[i]
+                                                        .product?.brand?.name ??
+                                                    '',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium
+                                                    ?.copyWith(
+                                                        color: MyColors
+                                                            .blueColor
+                                                            .withOpacity(0.4)),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    '${_viewModel.cartProducts[i].price} LE',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .titleMedium
@@ -128,60 +174,88 @@ class _CartScreenState extends State<CartScreen> {
                                                             color: MyColors
                                                                 .blueColor),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                    onPressed: () {},
-                                                    icon: const ImageIcon(
-                                                      AssetImage(
-                                                          'assets/images/delete_icon.png'),
-                                                      color: MyColors.blueColor,
-                                                    ))
-                                              ],
-                                            ),
-                                            Text(
-                                              _viewModel.cartProducts[i].product
-                                                      ?.brand?.name ??
-                                                  '',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium
-                                                  ?.copyWith(
-                                                      color: MyColors.blueColor
-                                                          .withOpacity(0.4)),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  _viewModel
-                                                      .cartProducts[i].price
-                                                      .toString(),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium
-                                                      ?.copyWith(
-                                                          color: MyColors
-                                                              .blueColor),
-                                                ),
-                                                IncDecProduct()
-                                              ],
-                                            ),
-                                          ],
+                                                  IncDecProduct(
+                                                    quantity: _viewModel
+                                                        .cartProducts[i].count
+                                                        .toString(),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-          );
+                          SizedBox(
+                            height: 25.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "Total Price",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                            color: MyColors.blueColor
+                                                .withOpacity(0.65),
+                                            fontSize: 20.sp),
+                                  ),
+                                  Text(
+                                    state.getCartResponseEntity.data
+                                            ?.totalCartPrice
+                                            .toString() ??
+                                        '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                            color: MyColors.blueColor,
+                                            fontSize: 20.sp),
+                                  ),
+                                ],
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: () {},
+                                icon: const Icon(Icons.arrow_forward_rounded),
+                                label: Text(
+                                  "Check Out",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                style: ButtonStyle(
+                                  padding: MaterialStatePropertyAll(
+                                      EdgeInsets.symmetric(
+                                          horizontal: 50.w, vertical: 15.h)),
+                                  foregroundColor:
+                                      const MaterialStatePropertyAll(
+                                          MyColors.whiteColor),
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll(
+                                    MyColors.blueColor,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          )
+                        ],
+                      ),
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(
+                        color: MyColors.blueColor,
+                      ),
+                    ));
         });
   }
 }
