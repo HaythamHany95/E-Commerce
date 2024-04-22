@@ -17,7 +17,8 @@ class ProductsTab extends StatefulWidget {
 class _ProductsTabState extends State<ProductsTab> {
   final _viewModel = ProductsTabViewModel(
       getAllProductsUseCase: injectGetAllProductsUseCase(),
-      addToCartUseCase: injectAddToCartUseCase());
+      addToCartUseCase: injectAddToCartUseCase(),
+      addToWishListUseCase: injectAddToWishListUseCase());
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,13 @@ class _ProductsTabState extends State<ProductsTab> {
       create: (context) => _viewModel..getAllProducts(),
       child: BlocBuilder<ProductsTabViewModel, ProductsTabStates>(
           builder: (context, state) {
+        if (state is ProductsTabLoadingState) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: MyColors.blueColor,
+            ),
+          );
+        }
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
           child: GridView.builder(
@@ -79,16 +87,28 @@ class _ProductsTabState extends State<ProductsTab> {
                                 alignment: Alignment.topRight,
                                 child: IconButton(
                                   highlightColor: Colors.transparent,
-                                  onPressed: () {},
-                                  icon: CircleAvatar(
-                                    backgroundColor: MyColors.whiteColor,
-                                    radius: 18.r,
-                                    child: ImageIcon(
-                                      const AssetImage(
-                                        "assets/images/favorit_icon.png",
+                                  onPressed: () {
+                                    /// TODO: Add to wishlist
+                                    if (state is AddToWishListSuccesslState) {
+                                      _viewModel.addToWishList(state
+                                              .addToWishListResponseEntity
+                                              ?.data?[i] ??
+                                          '');
+                                    }
+                                  },
+                                  icon: Material(
+                                    elevation: 4,
+                                    shape: const CircleBorder(),
+                                    child: CircleAvatar(
+                                      backgroundColor: MyColors.whiteColor,
+                                      radius: 18.r,
+                                      child: ImageIcon(
+                                        const AssetImage(
+                                          "assets/images/favorit_icon.png",
+                                        ),
+                                        size: 25.r,
+                                        color: MyColors.blueColor,
                                       ),
-                                      size: 25.r,
-                                      color: MyColors.blueColor,
                                     ),
                                   ),
                                 ),

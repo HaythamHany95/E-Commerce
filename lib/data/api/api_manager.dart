@@ -5,6 +5,7 @@ import 'package:e_commerce/data/api/api_constants.dart';
 import 'package:e_commerce/data/models_dto/request/login_requsest_dto.dart';
 import 'package:e_commerce/data/models_dto/request/register_request_dto.dart';
 import 'package:e_commerce/data/models_dto/response/add_to_cart_response_dto.dart';
+import 'package:e_commerce/data/models_dto/response/add_to_wishlist_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/categories_brands_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/get_cart_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/products_response_dto.dart';
@@ -264,6 +265,32 @@ class ApiManager {
       } else {
         return Left(ServerError(
             errorMessage: updateProductCountInCartResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: "Please check the internet connection"));
+    }
+  }
+
+  Future<Either<Errors, AddToWishListResponseDTO>> addToWishList(
+      String? productId) async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      Uri url =
+          Uri.https(ApiConstants.baseUrl, ApiConstants.addToWishListEndPoint);
+      var userToken = MySharedPreferces.getData(key: ApiConstants.userToken);
+      var response = await http.post(url,
+          headers: {'token': userToken.toString()},
+          body: {'productId': productId});
+      var addToWishListResponse =
+          AddToWishListResponseDTO.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(addToWishListResponse);
+      } else {
+        return Left(ServerError(errorMessage: addToWishListResponse.message));
       }
     } else {
       return Left(

@@ -1,16 +1,15 @@
 import 'package:e_commerce/domain/entities/add_to_cart_response_entity.dart';
+import 'package:e_commerce/domain/entities/add_to_wishlist_response_entity.dart';
 import 'package:e_commerce/domain/entities/errors.dart';
 import 'package:e_commerce/domain/entities/products_response_entity.dart';
 
 abstract class ProductsTabStates {}
 
+///* ------------- ProductTabStates -------------------
+
 class ProductsTabInitialState extends ProductsTabStates {}
 
-class ProductsTabLoadingState extends ProductsTabStates {
-  String? loadingMessage;
-
-  ProductsTabLoadingState({this.loadingMessage});
-}
+class ProductsTabLoadingState extends ProductsTabStates {}
 
 class ProductsTabErrorState extends ProductsTabStates {
   Errors? error;
@@ -23,6 +22,8 @@ class ProductsTabSuccesslState extends ProductsTabStates {
 
   ProductsTabSuccesslState({required this.productsResponse});
 }
+
+///* ------------- AddToCartStates -------------------
 
 class AddToCartLoadingState extends ProductsTabStates {
   String? loadingMessage;
@@ -40,4 +41,19 @@ class AddToCartSuccesslState extends ProductsTabStates {
   AddToCartResponseEntity? addToCartResponseEntity;
 
   AddToCartSuccesslState({required this.addToCartResponseEntity});
+}
+
+///* ------------- AddToWishListStates -------------------
+class AddToWishListLoadingState extends ProductsTabStates {}
+
+class AddToWishListErrorState extends ProductsTabStates {
+  Errors? error;
+
+  AddToWishListErrorState({required this.error});
+}
+
+class AddToWishListSuccesslState extends ProductsTabStates {
+  AddToWishListResponseEntity? addToWishListResponseEntity;
+
+  AddToWishListSuccesslState({required this.addToWishListResponseEntity});
 }

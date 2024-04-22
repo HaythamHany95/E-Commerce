@@ -1,5 +1,6 @@
 import 'package:e_commerce/domain/entities/products_response_entity.dart';
 import 'package:e_commerce/domain/use_cases/add_to_cart_use_case.dart';
+import 'package:e_commerce/domain/use_cases/add_to_wishlist_usecase.dart';
 import 'package:e_commerce/domain/use_cases/get_products_use_case.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ProductsTabViewModel extends Cubit<ProductsTabStates> {
   GetAllProductsUseCase getAllProductsUseCase;
   AddToCartUseCase addToCartUseCase;
+  AddToWishListUseCase addToWishListUseCase;
 
   ProductsTabViewModel(
-      {required this.getAllProductsUseCase, required this.addToCartUseCase})
+      {required this.getAllProductsUseCase,
+      required this.addToCartUseCase,
+      required this.addToWishListUseCase})
       : super(ProductsTabInitialState());
 
   List<ProductEntity> products = [];
@@ -49,5 +53,16 @@ class ProductsTabViewModel extends Cubit<ProductsTabStates> {
         emit(AddToCartSuccesslState(addToCartResponseEntity: response));
       },
     );
+  }
+
+  void addToWishList(String productId) async {
+    emit(AddToWishListLoadingState());
+    var either = await addToWishListUseCase.invoke(productId);
+    either.fold(
+        (error) => emit(
+              AddToWishListErrorState(error: error),
+            ), (response) {
+      emit(AddToWishListSuccesslState(addToWishListResponseEntity: response));
+    });
   }
 }

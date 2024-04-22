@@ -84,15 +84,19 @@ class ProductDetailsScreen extends StatelessWidget {
                         child: IconButton(
                           highlightColor: Colors.transparent,
                           onPressed: () {},
-                          icon: CircleAvatar(
-                            backgroundColor: MyColors.whiteColor,
-                            radius: 18.r,
-                            child: ImageIcon(
-                              const AssetImage(
-                                "assets/images/favorit_icon.png",
+                          icon: Material(
+                            elevation: 4,
+                            shape: const CircleBorder(),
+                            child: CircleAvatar(
+                              backgroundColor: MyColors.whiteColor,
+                              radius: 18.r,
+                              child: ImageIcon(
+                                const AssetImage(
+                                  "assets/images/favorit_icon.png",
+                                ),
+                                size: 25.r,
+                                color: MyColors.blueColor,
                               ),
-                              size: 25.r,
-                              color: MyColors.blueColor,
                             ),
                           ),
                         ),

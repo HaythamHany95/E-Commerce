@@ -2,7 +2,6 @@ import 'package:e_commerce/domain/dep_injections.dart';
 import 'package:e_commerce/ui/screens/cart/cubit/cart_screen_states.dart';
 import 'package:e_commerce/ui/screens/cart/cubit/cart_screen_viewmodel.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
-import 'package:e_commerce/ui/widgets/inc_dec_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
