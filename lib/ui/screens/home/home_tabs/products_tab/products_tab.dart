@@ -86,13 +86,11 @@ class _ProductsTabState extends State<ProductsTab> {
                               Align(
                                 alignment: Alignment.topRight,
                                 child: IconButton(
-                                  highlightColor: Colors.transparent,
                                   onPressed: () {
                                     /// TODO: Add to wishlist
                                     // ProductsTabViewModel.get(context)
                                     _viewModel.addToWishList(
                                         _viewModel.products[i].id ?? '');
-                                    print('Added to watchList');
                                   },
                                   icon: Material(
                                     elevation: 4,
