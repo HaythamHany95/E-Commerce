@@ -89,12 +89,10 @@ class _ProductsTabState extends State<ProductsTab> {
                                   highlightColor: Colors.transparent,
                                   onPressed: () {
                                     /// TODO: Add to wishlist
-                                    if (state is AddToWishListSuccesslState) {
-                                      _viewModel.addToWishList(state
-                                              .addToWishListResponseEntity
-                                              ?.data?[i] ??
-                                          '');
-                                    }
+                                    // ProductsTabViewModel.get(context)
+                                    _viewModel.addToWishList(
+                                        _viewModel.products[i].id ?? '');
+                                    print('Added to watchList');
                                   },
                                   icon: Material(
                                     elevation: 4,

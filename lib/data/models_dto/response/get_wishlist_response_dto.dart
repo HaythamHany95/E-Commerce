@@ -1,24 +1,20 @@
 import 'package:e_commerce/data/models_dto/response/categories_brands_response_dto.dart';
 import 'package:e_commerce/data/models_dto/response/products_response_dto.dart';
 import 'package:e_commerce/domain/entities/get_wishlist_response_entity.dart';
-import 'package:e_commerce/domain/entities/products_response_entity.dart';
 
 class GetWishListResponseDTO extends GetWishListResponseEntity {
-  GetWishListResponseDTO({
-    super.statusMsg,
-    super.message,
-    super.status,
-    super.count,
-    super.data,
-  });
+  GetWishListResponseDTO(
+      {super.status, super.count, super.data, super.statusMsg, super.message});
 
   GetWishListResponseDTO.fromJson(Map<String, dynamic> json) {
     if (json["statusMsg"] is String) {
       statusMsg = json["statusMsg"];
     }
+
     if (json["message"] is String) {
       message = json["message"];
     }
+
     if (json["status"] is String) {
       status = json["status"];
     }
@@ -29,23 +25,18 @@ class GetWishListResponseDTO extends GetWishListResponseEntity {
       data = json["data"] == null
           ? null
           : (json["data"] as List)
-              .map((e) => WisListProductDTO.fromJson(e))
+              .map((e) => WishListProductDTO.fromJson(e))
               .toList();
     }
   }
 }
 
-class WisListProductDTO extends ProductEntity {
-  String? createdAt;
-  String? updatedAt;
-  int? v;
-
-  WisListProductDTO(
+class WishListProductDTO extends WishListProductEntity {
+  WishListProductDTO(
       {super.sold,
       super.images,
       super.subcategory,
       super.ratingsQuantity,
-      super.id,
       super.title,
       super.slug,
       super.description,
@@ -55,11 +46,12 @@ class WisListProductDTO extends ProductEntity {
       super.category,
       super.brand,
       super.ratingsAverage,
-      this.createdAt,
-      this.updatedAt,
-      this.v});
+      super.createdAt,
+      super.updatedAt,
+      super.v,
+      super.id});
 
-  WisListProductDTO.fromJson(Map<String, dynamic> json) {
+  WishListProductDTO.fromJson(Map<String, dynamic> json) {
     if (json["sold"] is int) {
       sold = json["sold"];
     }

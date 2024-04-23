@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthTextFormField extends StatelessWidget {
   final String? fieldTitle;
+  final TextStyle? fieldTitleStyle;
   final String? hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -13,6 +14,7 @@ class AuthTextFormField extends StatelessWidget {
 
   const AuthTextFormField(
       {this.fieldTitle,
+      this.fieldTitleStyle,
       this.hintText,
       this.controller,
       this.validator,
@@ -31,7 +33,7 @@ class AuthTextFormField extends StatelessWidget {
         ),
         Text(
           fieldTitle ?? "",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: fieldTitleStyle ?? Theme.of(context).textTheme.titleMedium,
           textAlign: TextAlign.start,
         ),
         SizedBox(

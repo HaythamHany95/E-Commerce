@@ -1,6 +1,6 @@
 import 'package:e_commerce/ui/screens/home/cubit/home_screen_states.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/products_tab.dart';
-import 'package:e_commerce/ui/screens/home/home_tabs/favorits_tab/favorits_tab.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/wishlist_tab/wishlist_tab.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/home_tab/home_tab.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/profile_tab/profile_tab.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class HomeScreenViewModel extends Cubit<HomeScreenStates> {
   List<Widget> tabs = const [
     HomeTab(),
     ProductsTab(),
-    FavoritsTab(),
+    WishListTab(),
     ProfileTab()
   ];
   void changeTab(newIndex) {

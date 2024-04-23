@@ -4,6 +4,7 @@ import 'package:e_commerce/data/api/api_constants.dart';
 import 'package:e_commerce/ui/screens/auth/login/login_screen.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:e_commerce/ui/utils/my_shared_preferences.dart';
+import 'package:e_commerce/ui/widgets/auth_textform_field.dart';
 import 'package:e_commerce/ui/widgets/dialog_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +51,59 @@ class ProfileTab extends StatelessWidget {
                       color: MyColors.blueColor,
                     ))
               ],
-            )
+            ),
+            AuthTextFormField(
+              fieldTitleStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: MyColors.blueColor),
+
+              // controller: _viewModel.userNameController,
+              fieldTitle: "Your Full Name",
+              hintText: "Haytham Hany",
+            ),
+            AuthTextFormField(
+              fieldTitleStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: MyColors.blueColor),
+
+              // controller: _viewModel.userPhoneNoController,
+              fieldTitle: "Your Mobile Number",
+              hintText: "01013131332",
+            ),
+            AuthTextFormField(
+              fieldTitleStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: MyColors.blueColor),
+
+              // controller: _viewModel.userEmailController,
+              fieldTitle: "E-mail address",
+              hintText: "haytham11@gmail.com",
+            ),
+            AuthTextFormField(
+              fieldTitleStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: MyColors.blueColor),
+
+              // controller: _viewModel.uesrPasswordController,
+              fieldTitle: "Password",
+              hintText: "12345678",
+              // obscureText: _isPasswordSecured,
+              // suffixIcon: IconButton(
+              //     icon: (_isPasswordSecured)
+              //         ? const ImageIcon(AssetImage(
+              //             'assets/images/eye_slash_icon.png'))
+              //         : const ImageIcon(
+              //             AssetImage('assets/images/eye_icon.png')),
+              //     onPressed: () {
+              //       // setState(() {
+              //       //   _isPasswordSecured = !_isPasswordSecured;
+              //       // });
+              //     }),
+            ),
           ],
         ),
       ),

@@ -3,18 +3,22 @@ import 'package:e_commerce/data/repository/data_sources/auth_remote_data_source_
 import 'package:e_commerce/data/repository/data_sources/cart_remote_data_source_impl.dart';
 import 'package:e_commerce/data/repository/data_sources/home_tab_remote_data_source_impl.dart';
 import 'package:e_commerce/data/repository/data_sources/products_tab_remote_data_source_impl.dart';
+import 'package:e_commerce/data/repository/data_sources/wishlist_remote_datasource_impl.dart';
 import 'package:e_commerce/data/repository/repository/auth_repository_impl.dart';
 import 'package:e_commerce/data/repository/repository/cart_repository_impl.dart';
 import 'package:e_commerce/data/repository/repository/home_tab_repository_impl.dart';
 import 'package:e_commerce/data/repository/repository/products_tab_repository_impl.dart';
+import 'package:e_commerce/data/repository/repository/wishlist_repository_impl.dart';
 import 'package:e_commerce/domain/repository/data_sources/auth_remote_data_source_contract.dart';
 import 'package:e_commerce/domain/repository/data_sources/cart_remote_data_source_contract.dart';
 import 'package:e_commerce/domain/repository/data_sources/products_tab_remote_data_source_contract.dart';
+import 'package:e_commerce/domain/repository/data_sources/wishlist_remote_datasource_contract.dart';
 import 'package:e_commerce/domain/repository/repository/auth_repository_contract.dart';
 import 'package:e_commerce/domain/repository/data_sources/home_tab_remote_data_source_contract.dart';
 import 'package:e_commerce/domain/repository/repository/cart_repository_contract.dart';
 import 'package:e_commerce/domain/repository/repository/home_tab_repository_contract.dart';
 import 'package:e_commerce/domain/repository/repository/products_tab_repository_contract.dart';
+import 'package:e_commerce/domain/repository/repository/wishlist_repository_contract.dart';
 import 'package:e_commerce/domain/use_cases/add_to_cart_use_case.dart';
 import 'package:e_commerce/domain/use_cases/add_to_wishlist_usecase.dart';
 import 'package:e_commerce/domain/use_cases/delete_product_from_cart_use_case.dart';
@@ -22,6 +26,7 @@ import 'package:e_commerce/domain/use_cases/get_brands_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_cart_products_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_categories_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_products_use_case.dart';
+import 'package:e_commerce/domain/use_cases/get_wishlist_usecase.dart';
 import 'package:e_commerce/domain/use_cases/login_use_case.dart';
 import 'package:e_commerce/domain/use_cases/register_use_case.dart';
 import 'package:e_commerce/domain/use_cases/update_product_count_in_cart_use_case.dart';
@@ -76,6 +81,11 @@ AddToWishListUseCase injectAddToWishListUseCase() {
       repositoryDelegate: injectProductsTabRepositoryContract());
 }
 
+GetWishListUseCase injectGetWishListUseCase() {
+  return GetWishListUseCase(
+      repositoryDelegate: injectWishListRepositoryContract());
+}
+
 ///*------------ UseCase => object Repository  -----------------------------
 ///
 AuthRepositoryContract injectAuthRepositoryContract() {
@@ -98,6 +108,11 @@ CartRepositoryContract injectCartRepositoryContract() {
       remoteDataSourceDelegate: injectCartRemoteDataSourceContract());
 }
 
+WishListRepositoryContract injectWishListRepositoryContract() {
+  return WishListRepositoryImpl(
+      remoteDataSourceDelegate: injectWishListRemoteDataSourceContract());
+}
+
 ///*------------ Repository => object DataSource  -----------------------------
 ///
 AuthRemoteDataSourceContract injectAuthRemoteDataSourceContract() {
@@ -115,6 +130,10 @@ HomeTabRemoteDataSourceContract injectCategoriesRemoteDataSourceContract() {
 
 CartRemoteDataSourceContract injectCartRemoteDataSourceContract() {
   return CartRemoteDataSourceImpl(apiManager: ApiManager.getInstance());
+}
+
+WishListRemoteDataSourceContract injectWishListRemoteDataSourceContract() {
+  return WishListRemoteDataSourceImpl(apiManager: ApiManager.getInstance());
 }
 
 ///*------------ DataSource = > object ApiManager  -----------------------------
