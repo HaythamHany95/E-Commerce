@@ -29,6 +29,7 @@ import 'package:e_commerce/domain/use_cases/get_products_use_case.dart';
 import 'package:e_commerce/domain/use_cases/get_wishlist_usecase.dart';
 import 'package:e_commerce/domain/use_cases/login_use_case.dart';
 import 'package:e_commerce/domain/use_cases/register_use_case.dart';
+import 'package:e_commerce/domain/use_cases/remove_from_wishlist_usecase.dart';
 import 'package:e_commerce/domain/use_cases/update_product_count_in_cart_use_case.dart';
 
 ///*------------ ViewModel => object UseCase -----------------------------
@@ -83,6 +84,11 @@ AddToWishListUseCase injectAddToWishListUseCase() {
 
 GetWishListUseCase injectGetWishListUseCase() {
   return GetWishListUseCase(
+      repositoryDelegate: injectWishListRepositoryContract());
+}
+
+RemoveFromWishListUseCase injectRemoveFromWishListUseCase() {
+  return RemoveFromWishListUseCase(
       repositoryDelegate: injectWishListRepositoryContract());
 }
 

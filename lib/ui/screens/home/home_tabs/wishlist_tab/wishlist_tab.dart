@@ -15,8 +15,9 @@ class WishListTab extends StatefulWidget {
 }
 
 class _WishListTabState extends State<WishListTab> {
-  final _viewModel =
-      WishListTabViewModel(getWishListUseCase: injectGetWishListUseCase());
+  final _viewModel = WishListTabViewModel(
+      getWishListUseCase: injectGetWishListUseCase(),
+      removeFromWishListUseCase: injectRemoveFromWishListUseCase());
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,13 @@ class _WishListTabState extends State<WishListTab> {
                                             ),
                                           ),
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              _viewModel.removeFromWishList(
+                                                  _viewModel.wishListProducts[i]
+                                                          .id ??
+                                                      '');
+                                              _viewModel.relodaWishList();
+                                            },
                                             icon: Material(
                                               elevation: 4,
                                               shape: const CircleBorder(),
