@@ -112,25 +112,26 @@ class _CartScreenState extends State<CartScreen> {
                                                         .spaceBetween,
                                                 children: [
                                                   SizedBox(
-                                                    width: 190.w,
-                                                    child: Text(
-                                                      _viewModel.cartProducts[i]
-                                                              .product?.title ??
-                                                          '',
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleMedium
-                                                          ?.copyWith(
-                                                              color: MyColors
-                                                                  .blueColor),
-                                                    ),
-                                                  ),
+                                                      width: 190.w,
+                                                      child: Text(
+                                                          _viewModel
+                                                                  .cartProducts[
+                                                                      i]
+                                                                  .product
+                                                                  ?.title ??
+                                                              '',
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .titleMedium
+                                                              ?.copyWith(
+                                                                  color: MyColors
+                                                                      .blueColor))),
                                                   IconButton(
                                                       onPressed: () {
-                                                        /// TODO: Delete Item from Cart
                                                         _viewModel
                                                             .deleteProductFromCart(
                                                                 _viewModel
@@ -141,25 +142,27 @@ class _CartScreenState extends State<CartScreen> {
                                                                     "");
                                                       },
                                                       icon: const ImageIcon(
-                                                        AssetImage(
-                                                            'assets/images/delete_icon.png'),
-                                                        color:
-                                                            MyColors.blueColor,
-                                                      ))
+                                                          AssetImage(
+                                                              'assets/images/delete_icon.png'),
+                                                          color: MyColors
+                                                              .blueColor))
                                                 ],
                                               ),
                                               Text(
-                                                _viewModel.cartProducts[i]
-                                                        .product?.brand?.name ??
-                                                    '',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium
-                                                    ?.copyWith(
-                                                        color: MyColors
-                                                            .blueColor
-                                                            .withOpacity(0.4)),
-                                              ),
+                                                  _viewModel
+                                                          .cartProducts[i]
+                                                          .product
+                                                          ?.brand
+                                                          ?.name ??
+                                                      '',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium
+                                                      ?.copyWith(
+                                                          color: MyColors
+                                                              .blueColor
+                                                              .withOpacity(
+                                                                  0.4))),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
