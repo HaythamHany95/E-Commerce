@@ -6,6 +6,8 @@ import 'package:e_commerce/ui/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class ProductsTab extends StatefulWidget {
   const ProductsTab({super.key});
@@ -63,47 +65,72 @@ class _ProductsTabState extends State<ProductsTab> {
                     child: Column(
                       children: [
                         Expanded(
-                          flex: 3,
                           child: Stack(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15.r),
-                                  topRight: Radius.circular(15.r),
-                                ),
-                                child: (state is ProductsTabLoadingState)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: MyColors.blueColor,
+                              SizedBox(
+                                height: 200.h,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15.r),
+                                    topRight: Radius.circular(15.r),
+                                  ),
+                                  child: (state is ProductsTabLoadingState)
+                                      ? const Center(
+                                          child: CircularProgressIndicator(
+                                            color: MyColors.blueColor,
+                                          ),
+                                        )
+                                      : Image.network(
+                                          _viewModel.products[i].imageCover ??
+                                              "",
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
                                         ),
-                                      )
-                                    : Image.network(
-                                        _viewModel.products[i].imageCover ?? "",
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                      ),
+                                ),
                               ),
                               Align(
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                  onPressed: () {
-                                    /// TODO: Add to wishlist
-                                    // ProductsTabViewModel.get(context)
-                                    _viewModel.addToWishList(
-                                        _viewModel.products[i].id ?? '');
-                                  },
-                                  icon: Material(
-                                    elevation: 4,
-                                    shape: const CircleBorder(),
-                                    child: CircleAvatar(
-                                      backgroundColor: MyColors.whiteColor,
-                                      radius: 18.r,
-                                      child: ImageIcon(
-                                        const AssetImage(
-                                          "assets/images/favorit_icon.png",
+                                child: BlocListener<ProductsTabViewModel,
+                                    ProductsTabStates>(
+                                  listener: (_, state) {
+                                    if (state is AddToWishListLoadingState &&
+                                        state.productId ==
+                                            _viewModel.products[i].id) {
+                                      showTopSnackBar(
+                                        displayDuration:
+                                            const Duration(milliseconds: 1200),
+                                        snackBarPosition:
+                                            SnackBarPosition.bottom,
+                                        Overlay.of(context),
+                                        CustomSnackBar.error(
+                                          icon: Icon(
+                                              Icons.favorite_border_rounded,
+                                              color: Colors.red[200],
+                                              size: 120),
+                                          message: " Added To Wishlist",
                                         ),
-                                        size: 25.r,
-                                        color: MyColors.blueColor,
+                                      );
+                                    }
+                                  },
+                                  child: IconButton(
+                                    onPressed: () {
+                                      // ProductsTabViewModel.get(context)
+                                      _viewModel.addToWishList(
+                                          _viewModel.products[i].id ?? '');
+                                    },
+                                    icon: Material(
+                                      elevation: 4,
+                                      shape: const CircleBorder(),
+                                      child: CircleAvatar(
+                                        backgroundColor: MyColors.whiteColor,
+                                        radius: 18.r,
+                                        child: ImageIcon(
+                                          const AssetImage(
+                                            "assets/images/favorit_icon.png",
+                                          ),
+                                          size: 25.r,
+                                          color: MyColors.blueColor,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -142,15 +169,15 @@ class _ProductsTabState extends State<ProductsTab> {
                                           fontSize: 14.sp,
                                         ),
                                   ),
-                                  SizedBox(
-                                    width: 45.w,
-                                  ),
+                                  // SizedBox(
+                                  //   width: 45.w,
+                                  // ),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text(
-                                    "Review (${_viewModel.products[i].ratingsAverage}) ",
+                                    "Review ${_viewModel.products[i].ratingsAverage} ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -165,19 +192,67 @@ class _ProductsTabState extends State<ProductsTab> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  IconButton(
-                                    onPressed: () {
-                                      ProductsTabViewModel.get(context)
-                                          .addToCart(
-                                              _viewModel.products[i].id ?? "");
+                                  BlocConsumer<ProductsTabViewModel,
+                                      ProductsTabStates>(
+                                    buildWhen: (_, current) {
+                                      if (current is AddToCartLoadingState ||
+                                          current is AddToCartSuccesslState) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
                                     },
-                                    icon: ImageIcon(
-                                      size: 30.sp,
-                                      const AssetImage(
-                                        "assets/images/add_icon.png",
-                                      ),
-                                      color: MyColors.blueColor,
-                                    ),
+                                    listener: (_, state) {
+                                      if (state is AddToCartSuccesslState) {
+                                        showTopSnackBar(
+                                          displayDuration: const Duration(
+                                              milliseconds: 1200),
+                                          snackBarPosition:
+                                              SnackBarPosition.bottom,
+                                          Overlay.of(context),
+                                          const CustomSnackBar.info(
+                                            icon: Icon(
+                                                Icons.shopping_cart_outlined,
+                                                color: Color(0x15000000),
+                                                size: 120),
+                                            message: "Added To Cart",
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      if (state is AddToCartLoadingState &&
+                                          state.productId ==
+                                              _viewModel.products[i].id) {
+                                        return SizedBox(
+                                          width: 35.w,
+                                          height: 35.h,
+                                          child: const Center(
+                                            child: CircularProgressIndicator(
+                                              color: MyColors.blueColor,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      return IconButton(
+                                        onPressed: () {
+                                          ProductsTabViewModel.get(context)
+                                              .addToCart(
+                                                  _viewModel.products[i].id ??
+                                                      "");
+                                        },
+                                        icon: SizedBox(
+                                          width: 35.w,
+                                          height: 35.h,
+                                          child: const ImageIcon(
+                                            AssetImage(
+                                              "assets/images/add_icon.png",
+                                            ),
+                                            color: MyColors.blueColor,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),

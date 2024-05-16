@@ -26,25 +26,31 @@ class ProductsTabSuccesslState extends ProductsTabStates {
 ///* ------------- AddToCartStates -------------------
 
 class AddToCartLoadingState extends ProductsTabStates {
-  String? loadingMessage;
+  String? productId;
 
-  AddToCartLoadingState({this.loadingMessage});
+  AddToCartLoadingState({this.productId});
 }
 
 class AddToCartErrorState extends ProductsTabStates {
   Errors? error;
+  String? productId;
 
-  AddToCartErrorState({required this.error});
+  AddToCartErrorState({required this.error, this.productId});
 }
 
 class AddToCartSuccesslState extends ProductsTabStates {
   AddToCartResponseEntity? addToCartResponseEntity;
+  String? productId;
 
-  AddToCartSuccesslState({required this.addToCartResponseEntity});
+  AddToCartSuccesslState(
+      {required this.addToCartResponseEntity, this.productId});
 }
 
 ///* ------------- AddToWishListStates -------------------
-class AddToWishListLoadingState extends ProductsTabStates {}
+class AddToWishListLoadingState extends ProductsTabStates {
+  String? productId;
+  AddToWishListLoadingState(this.productId);
+}
 
 class AddToWishListErrorState extends ProductsTabStates {
   Errors? error;
@@ -54,6 +60,8 @@ class AddToWishListErrorState extends ProductsTabStates {
 
 class AddToWishListSuccesslState extends ProductsTabStates {
   AddToWishListResponseEntity? addToWishListResponseEntity;
+  String? productId;
 
-  AddToWishListSuccesslState({required this.addToWishListResponseEntity});
+  AddToWishListSuccesslState(
+      {required this.addToWishListResponseEntity, this.productId});
 }

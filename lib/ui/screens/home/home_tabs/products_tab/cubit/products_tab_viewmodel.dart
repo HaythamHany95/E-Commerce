@@ -40,23 +40,22 @@ class ProductsTabViewModel extends Cubit<ProductsTabStates> {
   }
 
   void addToCart(String productId) async {
-    emit(AddToCartLoadingState());
+    emit(AddToCartLoadingState(productId: productId));
     var either = await addToCartUseCase.invoke(productId);
     either.fold(
       (error) => emit(
-        AddToCartErrorState(
-          error: error,
-        ),
+        AddToCartErrorState(error: error, productId: productId),
       ),
       (response) {
         numOfProductsInCart = response.numOfCartItems ?? 0;
-        emit(AddToCartSuccesslState(addToCartResponseEntity: response));
+        emit(AddToCartSuccesslState(
+            addToCartResponseEntity: response, productId: productId));
       },
     );
   }
 
   void addToWishList(String productId) async {
-    emit(AddToWishListLoadingState());
+    emit(AddToWishListLoadingState(productId));
     var either = await addToWishListUseCase.invoke(productId);
     either.fold(
         (error) => emit(
