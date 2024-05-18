@@ -1,8 +1,8 @@
-import 'package:e_commerce/domain/dep_injections.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_states.dart';
 import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_viewmodel.dart';
 import 'package:e_commerce/ui/screens/product_details/product_details_screen.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
+import 'package:e_commerce/ui/utils/my_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,15 +17,10 @@ class ProductsTab extends StatefulWidget {
 }
 
 class _ProductsTabState extends State<ProductsTab> {
-  final _viewModel = ProductsTabViewModel(
-      getAllProductsUseCase: injectGetAllProductsUseCase(),
-      addToCartUseCase: injectAddToCartUseCase(),
-      addToWishListUseCase: injectAddToWishListUseCase());
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _viewModel..getAllProducts(),
+      create: (context) => cartProductsCubit..getAllProducts(),
       child: BlocBuilder<ProductsTabViewModel, ProductsTabStates>(
           builder: (context, state) {
         if (state is ProductsTabLoadingState) {
@@ -44,12 +39,12 @@ class _ProductsTabState extends State<ProductsTab> {
               crossAxisSpacing: 10.w,
               childAspectRatio: 1 / 1.3,
             ),
-            itemCount: _viewModel.products.length,
+            itemCount: cartProductsCubit.products.length,
             itemBuilder: (context, i) {
               return InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, ProductDetailsScreen.routeName,
-                      arguments: _viewModel.products[i]);
+                      arguments: cartProductsCubit.products[i]);
                 },
                 child: Material(
                   borderRadius: BorderRadius.circular(15.r),
@@ -81,7 +76,8 @@ class _ProductsTabState extends State<ProductsTab> {
                                           ),
                                         )
                                       : Image.network(
-                                          _viewModel.products[i].imageCover ??
+                                          cartProductsCubit
+                                                  .products[i].imageCover ??
                                               "",
                                           fit: BoxFit.cover,
                                           width: double.infinity,
@@ -95,7 +91,7 @@ class _ProductsTabState extends State<ProductsTab> {
                                   listener: (_, state) {
                                     if (state is AddToWishListLoadingState &&
                                         state.productId ==
-                                            _viewModel.products[i].id) {
+                                            cartProductsCubit.products[i].id) {
                                       showTopSnackBar(
                                         displayDuration:
                                             const Duration(milliseconds: 1200),
@@ -115,8 +111,9 @@ class _ProductsTabState extends State<ProductsTab> {
                                   child: IconButton(
                                     onPressed: () {
                                       // ProductsTabViewModel.get(context)
-                                      _viewModel.addToWishList(
-                                          _viewModel.products[i].id ?? '');
+                                      cartProductsCubit.addToWishList(
+                                          cartProductsCubit.products[i].id ??
+                                              '');
                                     },
                                     icon: Material(
                                       elevation: 4,
@@ -145,7 +142,7 @@ class _ProductsTabState extends State<ProductsTab> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                _viewModel.products[i].title ?? "",
+                                cartProductsCubit.products[i].title ?? "",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
@@ -160,7 +157,7 @@ class _ProductsTabState extends State<ProductsTab> {
                               Row(
                                 children: [
                                   Text(
-                                    "${_viewModel.products[i].price} LE",
+                                    "${cartProductsCubit.products[i].price} LE",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -177,7 +174,7 @@ class _ProductsTabState extends State<ProductsTab> {
                               Row(
                                 children: [
                                   Text(
-                                    "Review ${_viewModel.products[i].ratingsAverage} ",
+                                    "Review ${cartProductsCubit.products[i].ratingsAverage} ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -223,7 +220,8 @@ class _ProductsTabState extends State<ProductsTab> {
                                     builder: (context, state) {
                                       if (state is AddToCartLoadingState &&
                                           state.productId ==
-                                              _viewModel.products[i].id) {
+                                              cartProductsCubit
+                                                  .products[i].id) {
                                         return SizedBox(
                                           width: 35.w,
                                           height: 35.h,
@@ -237,9 +235,9 @@ class _ProductsTabState extends State<ProductsTab> {
                                       return IconButton(
                                         onPressed: () {
                                           ProductsTabViewModel.get(context)
-                                              .addToCart(
-                                                  _viewModel.products[i].id ??
-                                                      "");
+                                              .addToCart(cartProductsCubit
+                                                      .products[i].id ??
+                                                  "");
                                         },
                                         icon: SizedBox(
                                           width: 35.w,

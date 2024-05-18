@@ -8,6 +8,7 @@ class DialogUtils {
       barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: MyColors.whiteColor,
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

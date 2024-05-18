@@ -19,9 +19,7 @@ class ProductsTabViewModel extends Cubit<ProductsTabStates> {
   List<ProductEntity> products = [];
   num numOfProductsInCart = 0;
 
-  static ProductsTabViewModel get(context) {
-    return BlocProvider.of(context);
-  }
+  static ProductsTabViewModel get(context) => BlocProvider.of(context);
 
   void getAllProducts() async {
     emit(ProductsTabLoadingState());

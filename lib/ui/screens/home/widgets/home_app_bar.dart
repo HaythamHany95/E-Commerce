@@ -1,13 +1,22 @@
 import 'package:e_commerce/ui/screens/cart/cart_screen.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_states.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_viewmodel.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
+import 'package:e_commerce/ui/utils/my_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
     super.key,
   });
 
+  @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,11 +88,25 @@ class HomeAppBar extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, CartScreen.routeName);
                 },
-                icon: const ImageIcon(
-                  AssetImage(
-                    "assets/images/cart_icon.png",
+                icon: BlocProvider.value(
+                  value: cartProductsCubit,
+                  child: BlocBuilder<ProductsTabViewModel, ProductsTabStates>(
+                    builder: (context, state) {
+                      return Badge(
+                        isLabelVisible:
+                            (cartProductsCubit.numOfProductsInCart == 0)
+                                ? false
+                                : true,
+                        label: Text("${cartProductsCubit.numOfProductsInCart}"),
+                        child: const ImageIcon(
+                          AssetImage(
+                            "assets/images/cart_icon.png",
+                          ),
+                          color: MyColors.blueColor,
+                        ),
+                      );
+                    },
                   ),
-                  color: MyColors.blueColor,
                 ),
               ),
             ],

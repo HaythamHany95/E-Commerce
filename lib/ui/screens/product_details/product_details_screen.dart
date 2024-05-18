@@ -1,11 +1,14 @@
 import 'package:e_commerce/domain/entities/products_response_entity.dart';
 import 'package:e_commerce/ui/screens/cart/cart_screen.dart';
+import 'package:e_commerce/ui/screens/home/home_tabs/products_tab/cubit/products_tab_states.dart';
 import 'package:e_commerce/ui/utils/my_colors.dart';
-import 'package:e_commerce/ui/widgets/inc_dec_product.dart';
+import 'package:e_commerce/ui/utils/my_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readmore/readmore.dart';
+import '../home/home_tabs/products_tab/cubit/products_tab_viewmodel.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   static const String routeName = 'product_details_screen';
@@ -21,27 +24,31 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(productArgs.title ?? ''),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: ImageIcon(
-              const AssetImage(
-                "assets/images/search_icon.png",
-              ),
-              color: MyColors.blueColor,
-              size: 40.sp,
-            ),
-          ),
           Padding(
             padding: EdgeInsets.only(right: 5.w),
             child: IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, CartScreen.routeName);
               },
-              icon: const ImageIcon(
-                AssetImage(
-                  "assets/images/cart_icon.png",
+              icon: BlocProvider.value(
+                value: cartProductsCubit,
+                child: BlocBuilder<ProductsTabViewModel, ProductsTabStates>(
+                  builder: (context, state) {
+                    return Badge(
+                      isLabelVisible:
+                          (cartProductsCubit.numOfProductsInCart == 0)
+                              ? false
+                              : true,
+                      label: Text("${cartProductsCubit.numOfProductsInCart}"),
+                      child: const ImageIcon(
+                        AssetImage(
+                          "assets/images/cart_icon.png",
+                        ),
+                        color: MyColors.blueColor,
+                      ),
+                    );
+                  },
                 ),
-                color: MyColors.blueColor,
               ),
             ),
           ),
@@ -178,7 +185,6 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  IncDecProduct()
                 ],
               ),
               SizedBox(
@@ -250,15 +256,21 @@ class ProductDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      cartProductsCubit.addToCart(productArgs.id ?? "");
+                    },
                     icon: const Icon(Icons.add_shopping_cart_sharp),
                     label: Text(
                       "Add To Cart",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     style: ButtonStyle(
-                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
-                          horizontal: 50.w, vertical: 15.h)),
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(
+                          horizontal: 50.w,
+                          vertical: 15.h,
+                        ),
+                      ),
                       foregroundColor:
                           const MaterialStatePropertyAll(MyColors.whiteColor),
                       backgroundColor: const MaterialStatePropertyAll(

@@ -40,18 +40,6 @@ class _CartScreenState extends State<CartScreen> {
                       size: 40.sp,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 5.w),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const ImageIcon(
-                        AssetImage(
-                          "assets/images/cart_icon.png",
-                        ),
-                        color: MyColors.blueColor,
-                      ),
-                    ),
-                  ),
                 ],
               ),
               body: (state is GetCartSuccessState)
